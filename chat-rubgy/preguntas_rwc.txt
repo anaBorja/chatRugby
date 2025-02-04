@@ -1,0 +1,12 @@
+Pregunta: ¿Cuáles son las ciudades sede de la Rugby World Cup 2027?  
+Respuesta: Las ciudades sede de la RWC 2027 son Sídney, Melbourne y Brisbane.  
+
+Pregunta: ¿Cuál es el estadio de la final de la RWC 2027?  
+Respuesta: La final de la Rugby World Cup 2027 se jugará en el Accor Stadium, ubicado en Sídney, Australia.  
+
+Pregunta: ¿Cuántos espectadores caben en el estadio de Melbourne?  
+Respuesta: El estadio Melbourne Cricket Ground tiene una capacidad de 100,024 espectadores.  
+
+Pregunta: ¿Dónde puedo encontrar más información sobre la clasificación?  
+Respuesta: Puedes visitar el siguiente enlace para ver la información de clasificación:  
+https://www.rugbyworldcup.com/2027/en/qualifying
