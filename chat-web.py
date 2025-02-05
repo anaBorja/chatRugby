@@ -88,28 +88,6 @@ def get_answer_from_azure(question):
     except Exception as e:
         return f"Hubo un error al procesar la pregunta: {e}"
 
-# Agregar funcionalidad a los botones en la barra lateral
-for question in ["¿Cuáles son las curiosidades más interesantes del rugby?", 
-                 "¿Qué ciudades son anfitrionas de la Rugby World Cup 2027?", 
-                 "¿Cuántos equipos participan?", 
-                 "¿Las fechas de la clasificación de Europa?", 
-                 "¿Qué anunció World Rugby el 30 de enero de 2025 sobre las ciudades anfitrionas?"]:
-    
-    if st.sidebar.button(question):
-        # Mostrar la pregunta del usuario
-        st.chat_message("user").markdown(question)
-        st.session_state.messages.append({"role": "user", "content": question})
-
-        # Consultar al servicio de Azure para obtener la respuesta
-        answer = get_answer_from_azure(question)
-
-        # Mostrar la respuesta del asistente
-        with st.chat_message("assistant"):
-            st.markdown(answer)
-
-        # Guardar la respuesta en la sesión
-        st.session_state.messages.append({"role": "assistant", "content": answer})
-
 # Caja de texto para entrada del usuario
 if user_input := st.chat_input("Escribe tu pregunta aquí..."):
     # Mostrar la pregunta del usuario
