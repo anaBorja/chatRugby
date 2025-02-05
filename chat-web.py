@@ -49,7 +49,7 @@ st.sidebar.markdown("""
     ¿Las fechas de la clasificacion de Europa?
 </div>
 <div style="background-color: #f5b041; padding: 10px; margin-bottom: 10px; border-radius: 5px; color: white; font-weight: bold;">
-    ¿Cuál es el equipo más exitoso de la historia del torneo?
+     ¿Qué anunció World Rugby el 30 de enero de 2025 sobre las ciudades anfitrionas?
 </div>
 """, unsafe_allow_html=True)
 
