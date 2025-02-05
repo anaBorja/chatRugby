@@ -70,30 +70,56 @@ st.sidebar.markdown("""
 </script>
 """, unsafe_allow_html=True)
 
-# Caja de texto para entrada del usuario
-if user_input := st.chat_input("Escribe tu pregunta aquí..."):
-    # Mostrar inmediatamente la pregunta del usuario
-    st.chat_message("user").markdown(user_input)
-    st.session_state.messages.append({"role": "user", "content": user_input})
-
+# Función para hacer la consulta al servicio de Azure Question Answering
+def get_answer_from_azure(question):
     try:
-        # Llamar al servicio Question Answering de Azure
         response = ai_client.get_answers(
             project_name=ai_project_name,
             deployment_name=ai_deployment_name,
-            question=user_input,
+            question=question,
         )
 
         # Verificar si se obtuvo una respuesta
         if response.answers:
-            answer = response.answers[0].answer  # Tomamos la primera respuesta
+            return response.answers[0].answer  # Tomamos la primera respuesta
         else:
-            answer = "Lo siento, no pude encontrar una respuesta a esa pregunta."
+            return "Lo siento, no pude encontrar una respuesta a esa pregunta."
 
     except Exception as e:
-        answer = f"Hubo un error al procesar la pregunta: {e}"
+        return f"Hubo un error al procesar la pregunta: {e}"
 
-    # Mostrar inmediatamente la respuesta del chatbot
+# Agregar funcionalidad a los botones en la barra lateral
+for question in ["¿Cuáles son las curiosidades más interesantes del rugby?", 
+                 "¿Qué ciudades son anfitrionas de la Rugby World Cup 2027?", 
+                 "¿Cuántos equipos participan?", 
+                 "¿Las fechas de la clasificación de Europa?", 
+                 "¿Qué anunció World Rugby el 30 de enero de 2025 sobre las ciudades anfitrionas?"]:
+    
+    if st.sidebar.button(question):
+        # Mostrar la pregunta del usuario
+        st.chat_message("user").markdown(question)
+        st.session_state.messages.append({"role": "user", "content": question})
+
+        # Consultar al servicio de Azure para obtener la respuesta
+        answer = get_answer_from_azure(question)
+
+        # Mostrar la respuesta del asistente
+        with st.chat_message("assistant"):
+            st.markdown(answer)
+
+        # Guardar la respuesta en la sesión
+        st.session_state.messages.append({"role": "assistant", "content": answer})
+
+# Caja de texto para entrada del usuario
+if user_input := st.chat_input("Escribe tu pregunta aquí..."):
+    # Mostrar la pregunta del usuario
+    st.chat_message("user").markdown(user_input)
+    st.session_state.messages.append({"role": "user", "content": user_input})
+
+    # Consultar al servicio de Azure para obtener la respuesta
+    answer = get_answer_from_azure(user_input)
+
+    # Mostrar la respuesta del asistente
     with st.chat_message("assistant"):
         st.markdown(answer)
 
