@@ -51,6 +51,23 @@ st.sidebar.markdown("""
 <div style="background-color: #f5b041; padding: 10px; margin-bottom: 10px; border-radius: 5px; color: white; font-weight: bold;">
      ¿Qué anunció World Rugby el 30 de enero de 2025 sobre las ciudades anfitrionas?
 </div>
+ <script>
+    document.getElementById('pregunta1').onclick = function() {
+        window.parent.postMessage({type: 'setText', text: '¿Cuáles son las curiosidades más interesantes del rugby?'}, '*');
+    }
+    document.getElementById('pregunta2').onclick = function() {
+        window.parent.postMessage({type: 'setText', text: '¿Qué ciudades son anfitrionas de la Rugby World Cup 2027?'}, '*');
+    }
+    document.getElementById('pregunta3').onclick = function() {
+        window.parent.postMessage({type: 'setText', text: '¿Cuántos equipos participan?'}, '*');
+    }
+    document.getElementById('pregunta4').onclick = function() {
+        window.parent.postMessage({type: 'setText', text: '¿Las fechas de la clasificacion de Europa?'}, '*');
+    }
+    document.getElementById('pregunta5').onclick = function() {
+        window.parent.postMessage({type: 'setText', text: '¿Qué anunció World Rugby el 30 de enero de 2025 sobre las ciudades anfitrionas?'}, '*');
+    }
+</script>
 """, unsafe_allow_html=True)
 
 # Caja de texto para entrada del usuario
