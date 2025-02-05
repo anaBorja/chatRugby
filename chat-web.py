@@ -51,53 +51,56 @@ st.sidebar.markdown("""
 <div style="background-color: #f5b041; padding: 10px; margin-bottom: 10px; border-radius: 5px; color: white; font-weight: bold;">
      ¿Qué anunció World Rugby el 30 de enero de 2025 sobre las ciudades anfitrionas?
 </div>
- <script>
-    document.getElementById('pregunta1').onclick = function() {
-        window.parent.postMessage({type: 'setText', text: '¿Cuáles son las curiosidades más interesantes del rugby?'}, '*');
-    }
-    document.getElementById('pregunta2').onclick = function() {
-        window.parent.postMessage({type: 'setText', text: '¿Qué ciudades son anfitrionas de la Rugby World Cup 2027?'}, '*');
-    }
-    document.getElementById('pregunta3').onclick = function() {
-        window.parent.postMessage({type: 'setText', text: '¿Cuántos equipos participan?'}, '*');
-    }
-    document.getElementById('pregunta4').onclick = function() {
-        window.parent.postMessage({type: 'setText', text: '¿Las fechas de la clasificacion de Europa?'}, '*');
-    }
-    document.getElementById('pregunta5').onclick = function() {
-        window.parent.postMessage({type: 'setText', text: '¿Qué anunció World Rugby el 30 de enero de 2025 sobre las ciudades anfitrionas?'}, '*');
-    }
-</script>
 """, unsafe_allow_html=True)
 
-# Función para hacer la consulta al servicio de Azure Question Answering
-def get_answer_from_azure(question):
-    try:
-        response = ai_client.get_answers(
-            project_name=ai_project_name,
-            deployment_name=ai_deployment_name,
-            question=question,
-        )
 
-        # Verificar si se obtuvo una respuesta
-        if response.answers:
-            return response.answers[0].answer  # Tomamos la primera respuesta
-        else:
-            return "Lo siento, no pude encontrar una respuesta a esa pregunta."
 
-    except Exception as e:
-        return f"Hubo un error al procesar la pregunta: {e}"
+# Usar st.experimental_rerun para detectar el mensaje y no duplicar las preguntas
+if "question" in st.session_state:
+    question = st.session_state.question
+    st.session_state.messages.append({"role": "user", "content": question})
+    st.chat_message("user").markdown(question)
 
-# Caja de texto para entrada del usuario
+    # Obtener respuesta desde Azure
+    def get_answer_from_azure(question):
+        try:
+            response = ai_client.get_answers(
+                project_name=ai_project_name,
+                deployment_name=ai_deployment_name,
+                question=question,
+            )
+
+            # Verificar si se obtuvo una respuesta
+            if response.answers:
+                return response.answers[0].answer  # Tomamos la primera respuesta
+            else:
+                return "Lo siento, no pude encontrar una respuesta a esa pregunta."
+
+        except Exception as e:
+            return f"Hubo un error al procesar la pregunta: {e}"
+
+    # Consultar la respuesta
+    answer = get_answer_from_azure(question)
+
+    # Mostrar la respuesta
+    with st.chat_message("assistant"):
+        st.markdown(answer)
+
+    # Guardar la respuesta en la sesión
+    st.session_state.messages.append({"role": "assistant", "content": answer})
+
+    # Limpiar la variable de la pregunta para no duplicar
+    del st.session_state["question"]
+
+# Caja de texto para que el usuario también pueda escribir su propia pregunta
 if user_input := st.chat_input("Escribe tu pregunta aquí..."):
-    # Mostrar la pregunta del usuario
     st.chat_message("user").markdown(user_input)
     st.session_state.messages.append({"role": "user", "content": user_input})
 
-    # Consultar al servicio de Azure para obtener la respuesta
+    # Obtener respuesta desde Azure
     answer = get_answer_from_azure(user_input)
 
-    # Mostrar la respuesta del asistente
+    # Mostrar la respuesta
     with st.chat_message("assistant"):
         st.markdown(answer)
 
