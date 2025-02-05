@@ -9,17 +9,18 @@ load_dotenv()
 ai_endpoint = st.secrets['AI_SERVICE_ENDPOINT']
 ai_key = st.secrets['AI_SERVICE_KEY']
 ai_project_name = st.secrets['QA_PROJECT_NAME']
-ai_deployment_name = st.secrets['QA_DEPLOYMENT_NAME']
+ai_deployment_name =st.secrets['QA_DEPLOYMENT_NAME']
 
 # Crear el cliente utilizando el endpoint y la clave
 credential = AzureKeyCredential(ai_key)
 ai_client = QuestionAnsweringClient(endpoint=ai_endpoint, credential=credential)
 
+
 # Título de la aplicación
-st.title("Chatbot de Rugby World Cup 2027")
+st.title("🗿Chatbot de Rugby World Cup 2027")
 
 # Cuadro con contexto
-st.info("💬 Este chatbot responde preguntas sobre la Rugby World Cup 2027. Pregunta sobre equipos, partidos, estadios y más.")
+st.info("💬 Este chatbot responde preguntas sobre la Rugby World Cup 2027. Pregunta sobre curiosidades de rugby, ciudades anfitrionas y más.")
 
 # Espacio para mostrar el historial del chat
 if "messages" not in st.session_state:
@@ -29,6 +30,28 @@ if "messages" not in st.session_state:
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
+
+# Columna derecha con sugerencias de preguntas
+st.sidebar.header("Ejemplos de preguntas")
+
+# Agregar las preguntas dentro de cajitas de colores
+st.sidebar.markdown("""
+<div style="background-color: #ff5722; padding: 10px; margin-bottom: 10px; border-radius: 5px; color: white; font-weight: bold;">
+    ¿Cuáles son las curiosidades más interesantes del rugby?
+</div>
+<div style="background-color: #e67e22; padding: 10px; margin-bottom: 10px; border-radius: 5px; color: white; font-weight: bold;">
+    ¿Qué ciudades son anfitrionas de la Rugby World Cup 2027?
+</div>
+<div style="background-color: #e59866 ; padding: 10px; margin-bottom: 10px; border-radius: 5px; color: white; font-weight: bold;">
+    ¿Cuántos equipos participan?
+</div>
+<div style="background-color: #f0b27a; padding: 10px; margin-bottom: 10px; border-radius: 5px; color: white; font-weight: bold;">
+    ¿Las fechas de la clasificacion de Europa?
+</div>
+<div style="background-color: #f5b041; padding: 10px; margin-bottom: 10px; border-radius: 5px; color: white; font-weight: bold;">
+    ¿Cuál es el equipo más exitoso de la historia del torneo?
+</div>
+""", unsafe_allow_html=True)
 
 # Caja de texto para entrada del usuario
 if user_input := st.chat_input("Escribe tu pregunta aquí..."):
