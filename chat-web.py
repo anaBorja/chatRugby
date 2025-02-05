@@ -31,6 +31,7 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
+
 # Columna derecha con sugerencias de preguntas
 st.sidebar.header("Ejemplos de preguntas")
 
@@ -43,34 +44,17 @@ questions = [
     ("¿Qué anunció World Rugby el 30 de enero de 2025 sobre las ciudades anfitrionas?", "#f5b041"),
 ]
 
-# Generar los divs clickeables usando HTML + JavaScript
-st.sidebar.markdown(
-    """
-    <script>
-    function sendQuestion(question) {
-        var streamlitDoc = window.parent.document;
-        var inputBox = streamlitDoc.querySelector('textarea');
-        var event = new Event('input', { bubbles: true });
-        inputBox.value = question;
-        inputBox.dispatchEvent(event);
-    }
-    </script>
-    """,
-    unsafe_allow_html=True,
-)
+# Mostrar preguntas en sidebar con estilos y funcionalidad
+for i, question in enumerate(questions):
+    if st.sidebar.button(question, key=f"q{i}", help="Haz clic para enviar esta pregunta al chatbot"):
+        st.session_state.selected_question = question  # Guardar la pregunta seleccionada
 
-# Crear los divs de preguntas con clics
-for question, color in questions:
-    st.sidebar.markdown(
-        f"""
-        <div onclick="sendQuestion('{question}')" 
-             style="background-color: {color}; padding: 10px; margin-bottom: 10px; border-radius: 5px; 
-             color: white; font-weight: bold; cursor: pointer; text-align: center;">
-            {question}
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+# Verificar si hay una pregunta seleccionada desde el sidebar
+if "selected_question" in st.session_state:
+    user_input = st.session_state.selected_question
+    del st.session_state.selected_question  # Limpiar la variable después de usarla
+else:
+    user_input = st.chat_input("Escribe tu pregunta aquí...")
 
 
 # Caja de texto para entrada del usuario
