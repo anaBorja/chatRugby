@@ -44,8 +44,11 @@ questions = {
     "¿Qué anunció World Rugby el 30 de enero de 2025 sobre las ciudades anfitrionas?"
 }
 
+# Colores de fondo para las preguntas
+colors = ["#ff5722", "#e67e22", "#e59866", "#f0b27a", "#f5b041"]
+
 # HTML dinámico para cada pregunta con el color correspondiente y funcionalidad de clic
-for pregunta, color in questions.items():
+for pregunta, colors in questions.items():
     if st.sidebar.button(pregunta, key=pregunta):
         st.chat_message("user").markdown(pregunta)
         st.session_state.messages.append({"role": "user", "content": pregunta})
