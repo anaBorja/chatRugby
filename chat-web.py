@@ -31,51 +31,27 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-
 # Columna derecha con sugerencias de preguntas
 st.sidebar.header("Ejemplos de preguntas")
 
-# Lista de preguntas con estilos
-questions = {
-    "¿Cuáles son las curiosidades más interesantes del rugby?",
-    "¿Qué ciudades son anfitrionas de la Rugby World Cup 2027?",
-    "¿Cuántos equipos participan?",
-    "¿Las fechas de la clasificación de Europa?",
-    "¿Qué anunció World Rugby el 30 de enero de 2025 sobre las ciudades anfitrionas?"
-}
-
-# Colores de fondo para las preguntas
-colors = ["#ff5722", "#e67e22", "#e59866", "#f0b27a", "#f5b041"]
-
-# HTML dinámico para cada pregunta con el color correspondiente y funcionalidad de clic
-for pregunta, colors in questions.items():
-    if st.sidebar.button(pregunta, key=pregunta):
-        st.chat_message("user").markdown(pregunta)
-        st.session_state.messages.append({"role": "user", "content": pregunta})
-
-        try:
-            # Llamar al servicio Question Answering de Azure
-            response = ai_client.get_answers(
-                project_name=ai_project_name,
-                deployment_name=ai_deployment_name,
-                question=pregunta,
-            )
-
-            # Verificar si se obtuvo una respuesta
-            if response.answers:
-                answer = response.answers[0].answer  # Tomamos la primera respuesta
-            else:
-                answer = "Lo siento, no pude encontrar una respuesta a esa pregunta."
-
-        except Exception as e:
-            answer = f"Hubo un error al procesar la pregunta: {e}"
-
-        # Mostrar la respuesta del chatbot
-        with st.chat_message("assistant"):
-            st.markdown(answer)
-
-        # Guardar la respuesta en la sesión
-        st.session_state.messages.append({"role": "assistant", "content": answer})
+# Agregar las preguntas dentro de cajitas de colores
+st.sidebar.markdown("""
+<div style="background-color: #ff5722; padding: 10px; margin-bottom: 10px; border-radius: 5px; color: white; font-weight: bold;">
+    ¿Cuáles son las curiosidades más interesantes del rugby?
+</div>
+<div style="background-color: #e67e22; padding: 10px; margin-bottom: 10px; border-radius: 5px; color: white; font-weight: bold;">
+    ¿Qué ciudades son anfitrionas de la Rugby World Cup 2027?
+</div>
+<div style="background-color: #e59866 ; padding: 10px; margin-bottom: 10px; border-radius: 5px; color: white; font-weight: bold;">
+    ¿Cuántos equipos participan?
+</div>
+<div style="background-color: #f0b27a; padding: 10px; margin-bottom: 10px; border-radius: 5px; color: white; font-weight: bold;">
+    ¿Las fechas de la clasificacion de Europa?
+</div>
+<div style="background-color: #f5b041; padding: 10px; margin-bottom: 10px; border-radius: 5px; color: white; font-weight: bold;">
+    ¿Qué anunció World Rugby el 30 de enero de 2025 sobre las ciudades anfitrionas?
+</div>
+""", unsafe_allow_html=True)
 
 
 # Caja de texto para entrada del usuario
