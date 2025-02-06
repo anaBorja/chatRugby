@@ -37,10 +37,10 @@ st.sidebar.header("Ejemplos de preguntas")
 
 # Lista de preguntas con estilos
 questions = {
-    "¿Cuáles son las curiosidades más interesantes del rugby?": "#ff5722",
-    "¿Qué ciudades son anfitrionas de la Rugby World Cup 2027?": "#e67e22",
-    "¿Cuántos equipos participan?": "#e59866",
-    "¿Las fechas de la clasificación de Europa?": "#f0b27a",
+    "¿Cuáles son las curiosidades más interesantes del rugby?", "#ff5722",
+    "¿Qué ciudades son anfitrionas de la Rugby World Cup 2027?", "#e67e22",
+    "¿Cuántos equipos participan?", "#e59866",
+    "¿Las fechas de la clasificación de Europa?", "#f0b27a",
     "¿Qué anunció World Rugby el 30 de enero de 2025 sobre las ciudades anfitrionas?": "#f5b041"
 }
 
@@ -74,7 +74,7 @@ for pregunta, color in questions.items():
         # Guardar la respuesta en la sesión
         st.session_state.messages.append({"role": "assistant", "content": answer})
 
-        
+
 # Caja de texto para entrada del usuario
 if user_input := st.chat_input("Escribe tu pregunta aquí..."):
     # Mostrar inmediatamente la pregunta del usuario
