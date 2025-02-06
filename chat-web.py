@@ -41,7 +41,7 @@ questions = {
     "¿Qué ciudades son anfitrionas de la Rugby World Cup 2027?", "#e67e22",
     "¿Cuántos equipos participan?", "#e59866",
     "¿Las fechas de la clasificación de Europa?", "#f0b27a",
-    "¿Qué anunció World Rugby el 30 de enero de 2025 sobre las ciudades anfitrionas?": "#f5b041"
+    "¿Qué anunció World Rugby el 30 de enero de 2025 sobre las ciudades anfitrionas?", "#f5b041"
 }
 
 # HTML dinámico para cada pregunta con el color correspondiente y funcionalidad de clic
